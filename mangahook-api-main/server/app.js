@@ -1,31 +1,21 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const dotenv = require("dotenv");
-const ApiKey = require("./middleware/apiKeyMiddleware");
+const ApiKey = require("./middleware/apiKeyMiddleware")
+const app = require("express")()
+const bodyParser = require("body-parser")
+const mangaRouter = require("./routes/mangaRouter")
+const mangaListRouter = require("./routes/mangaListRouter")
+const mangaSearch = require("./routes/mangaSearch")
 
-const mangaRouter = require("./routes/mangaRouter");
-const mangaListRouter = require("./routes/mangaListRouter");
-const mangaSearch = require("./routes/mangaSearch");
+app.use(bodyParser.json())
+require('dotenv').config()
 
-const app = express();
-dotenv.config();
-
-// Middleware
-app.use(bodyParser.json());
-app.use(ApiKey);
-
-// Root route
+app.use(ApiKey)
 app.get("/", (req, res) => {
-  res.send("MangaHook API is running 🚀");
+    res.send("API is running 🚀");
 });
+app.use("/api/manga", mangaRouter)
+app.use("/api/mangaList", mangaListRouter)
+app.use("/api/search", mangaSearch)
 
-// API routes
-app.use("/api/manga", mangaRouter);
-app.use("/api/mangaList", mangaListRouter);
-app.use("/api/search", mangaSearch);
-
-// Start server
-const PORT = process.env.PORT || 8080;
-app.listen(PORT, () => {
-  console.log(`Server Start On Port ${PORT} 🎉✨`);
-});
+app.listen(process.env.PORT, ()=>{
+    console.log(`Server Start On Port ${process.env.PORT} 🎉✨ `)
+})
