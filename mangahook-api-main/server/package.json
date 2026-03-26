@@ -1,6 +1,6 @@
 {
   "name": "backendtutorial",
-  "version": 2,
+  "version": "1.0.0",
   "builds": [
     {
       "src": "index.js",
