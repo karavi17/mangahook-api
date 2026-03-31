@@ -1,5 +1,5 @@
 // CHANGE THIS to your Railway backend URL after deployment
-const API = "https://your-backend-production.up.railway.app";
+const API = "https://mangahook-api-production.up.railway.app";
 
 // Login
 window.startExam = function () {
