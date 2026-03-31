@@ -29,9 +29,10 @@ const questions = [
 ];
 
 // Get Questions
-app.get("/api/questions", (req, res) => {
-  res.json(questions);
+app.get("/", (req, res) => {
+  res.redirect("/api/questions");
 });
+
 
 // Submit Exam
 app.post("/api/submit", (req, res) => {
