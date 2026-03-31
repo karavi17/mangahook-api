@@ -28,13 +28,17 @@ const questions = [
   }
 ];
 
-// Get Questions
+// ✅ Get Questions
+app.get("/api/questions", (req, res) => {
+  res.json(questions);
+});
+
+// Root route → redirect to questions
 app.get("/", (req, res) => {
   res.redirect("/api/questions");
 });
 
-
-// Submit Exam
+// ✅ Submit Exam
 app.post("/api/submit", (req, res) => {
   const answers = req.body.answers;
   let score = 0;
@@ -46,23 +50,28 @@ app.post("/api/submit", (req, res) => {
   res.json({ score, total: questions.length });
 });
 
-// Pexels Image
+// ✅ Pexels Image
 app.get("/api/image", async (req, res) => {
   const query = req.query.q || "study";
 
-  const response = await fetch(`https://api.pexels.com/v1/search?query=${query}`, {
-    headers: { Authorization: API_KEY }
-  });
+  try {
+    const response = await fetch(`https://api.pexels.com/v1/search?query=${query}`, {
+      headers: { Authorization: API_KEY }
+    });
 
-  const data = await response.json();
-  res.json(data.photos[0]);
+    const data = await response.json();
+    res.json(data.photos[0]);
+  } catch (error) {
+    res.status(500).json({ error: "Failed to fetch image" });
+  }
 });
 
-// Health (for Railway)
+// ✅ Health check (for Railway)
 app.get("/health", (req, res) => {
   res.send("OK");
 });
 
+// Start server
 app.listen(PORT, "0.0.0.0", () => {
   console.log("Server running on port " + PORT);
 });
